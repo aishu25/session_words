@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Words</title>
+	<style type="text/css">
+	#wapper{
+			margin: 20px;
+			padding: 20px;
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			border: 1px solid black;
+			line-height: 20px;
+	}
+	.button {
+		    background-color: #4CAF50;
+		    border: none;
+		    color: white;
+		    width: 150px;
+		    padding: 8px ;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 15px;
+		    margin: 3px;
+		    cursor: pointer;
+	}
+	.red{
+		color: red;
+	}
+	.blue{
+		color: blue;
+	}
+	.green{
+		color: green;
+	}
+	.on{
+		font-size: 50px;
+	}
+	</style>
+</head>
+	<body id="wapper">
+		<form action="/words/add_word" method="POST">
+			{% csrf_token %}
+			<div>
+				<h3>Add a new word</h3>
+				<textarea rows="3" cols="30" name="words"></textarea>
+				<h4>Choose Color:</h4>
+				<input type="radio" name="color" value="red">Red<br>
+				<input type="radio" name="color" value="green">Green<br>
+				<input type="radio" name="color" value="blue">Blue<br>
+				<input type="checkbox" name="big" value="fontbig">Show in BIG fonts<br>
+				<input class="button" type="submit" name="submit" value="Add to Session">
+			</div>
+		</form>
+		<hr>
+		<div class="right">
+			<form action="/words/clear" method="POST">
+				{% csrf_token %}
+				<br><input class="button" type="submit" name="submit" value="Clear Session">
+			</form>
+			
+			{% for word in request.session.word_list %}
+				{% if word.big == "on" %}
+			<p>
+				<span class="{{ word.color }} {{ word.big }}">{{ word.word }}</span>{{ word.created_at }}
+			</p>
+			{% else %}
+			<p>
+				<span class="{{ word.color }}">{{ word.word }}</span>{{ word.created_at }}
+			</p>
+				{% endif %}		
+			{% endfor %}
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
